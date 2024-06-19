@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import * as RAPIER from "@dimforge/rapier3d-compat"
-import { RigidBody, useRapier } from "@react-three/rapier";
+import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import { useRef } from "react";
 import { usePersonControls } from "./hook";
 import { useFrame } from "@react-three/fiber";
@@ -46,6 +46,7 @@ export const Player = () => {
           <RigidBody position={[0, 1, -2]} mass={1} ref={playerRef} lockRotations>
             <mesh>
                 <capsuleGeometry args={[0.5, 0.5]} />
+                <CapsuleCollider args={[0.5, 0.5]} />
             </mesh>
           </RigidBody>
         </>
