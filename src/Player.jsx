@@ -30,9 +30,11 @@ export const Player = () => {
         playerRef.current.setLinvel({ x: direction.x, y: velocity.y, z: direction.z });
 
         //Jump
-        const world = rapier.world;
-        const ray = world.castRay(new RAPIER.Ray(playerRef.current.translation(), { x: 0, y: -1, z: 0}));
-        const grounded = ray && ray.collider && Math.abs(ray.toi) <= 1.5;
+        const rayOrigin = playerRef.current.translation();
+        const rayDirection = { x: 0, y: -1, z: 0 };
+        const ray = new RAPIER.Ray(rayOrigin, rayDirection);
+        const hit = world.castRay(ray, 1, true);
+        const grounded = hit && hit.toi <= 1.5; // Assicurati che il valore sia adeguato al tuo contesto
 
         if (jump && grounded) doJump();
 

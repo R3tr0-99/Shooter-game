@@ -17,7 +17,7 @@ export const usePersonControls = () => {
         backward: false,
         left: false,
         right: false,
-        jump: false
+        jump: false,
     });
 
     const setMovementStatus = (code, status) => {
