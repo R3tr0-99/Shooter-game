@@ -8,11 +8,20 @@ import { WeaponModel } from "./WeaponModel.jsx";
 export const App = () => {
   return (
     <>
-     {/*lock mouse, sun and illumination */}
+     {/*lock mouse, sun, illumination and shadows */}
      <PointerLockControls />
      <Sky sunPosition={[100, 20, 100]} />
      <ambientLight intensity={1.5} />
-     <directionalLight castShadow intensity={.8} position={[50, 50, 0]} />
+     <directionalLight 
+       castShadow 
+       intensity={1.5} 
+       shadow-mapSize={4096}
+       shadow-camera-top= {shadowOffset}
+       shadow-camera-bottom= {-shadowOffset}
+       shadow-camera-left={shadowOffset}
+       shadow-camera-right={-shadowOffset} 
+       position={[100, 100, 0]} 
+     />
 
      {/* gravity effects and cube */}
      <Physics gravity={[0, -20, 0]}>
