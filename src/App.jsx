@@ -5,6 +5,8 @@ import { Player } from "./Player.jsx";
 import { Cubes } from "./Cube.jsx";
 import { WeaponModel } from "./WeaponModel.jsx";
 
+const shadowOffset= 50;
+
 export const App = () => {
   return (
     <>
