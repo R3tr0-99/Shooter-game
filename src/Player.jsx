@@ -74,6 +74,22 @@ export const Player = () => {
         playerRef.current.setLinvel({ x: 0, y: 8, z: 0});
     }
 
+    const setAnimationParams= () => {
+        if(!swayingAnimation) return;
+
+        swayingAnimation.stop();
+        setIsSwayingAnimationFinished(true);
+
+        if(isMoving) {
+            setSwayingDuration(() => 300);
+            setSwayingNewPosition(() => new THREE.Vector3(-0.05, 0, 0));
+        }
+        else { 
+            setSwayingDuration(() => 1000);
+            setSwayingNewPosition(() => new THREE.Vector3(-0.01, 0, 0));
+        }
+    }
+
     const initSwayingObjectAnimation = () => {
         const currentPosition = new THREE.Vector3(0, 0, 0);
         const initialPosition = new THREE.Vector3(0, 0, 0);
