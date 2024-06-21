@@ -31,7 +31,7 @@ export const Player = () => {
 
         //Jump
         const world= rapier.world;
-        const ray= world.castRay(new RAPIER.Ray(playerRef.current.translation(), { x: 0, y: -1, z: 0}));
+        const ray= world.castRay(new RAPIER.Ray(playerRef.current.translation(), { x: 0, y: -1, z: 0 }));
         const grounded= ray && ray.collider && Math.abs(ray.timeOfImpact) <= 1.5;
 
         if (jump && grounded) doJump();
