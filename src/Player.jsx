@@ -65,7 +65,7 @@ export const Player = () => {
             </mesh>
           </RigidBody>
           <group ref={objectInHandRef}>
-            <Weapon position={[0.3, -0.1, 0.3]} scale={0.3} />
+            <Weapon position={[0.3, -0.1, 0.3]} scale={0.1} rotation-y={ Math.PI } />
           </group>
         </>
     );
