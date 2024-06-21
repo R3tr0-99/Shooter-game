@@ -78,21 +78,21 @@ export const Player = () => {
         const easing= TWEEN.Easing.Quadratic.Out;
 
         const twSwayingAnimation = new TWEEN.Tween(currentPosition)
-        .to(newPosition, animationDuration)
-        .easing(easing)
-        .onUpdate( () => {
-            swayingObjectRef.current.position.copy(currentPosition);
-        });
+          .to(newPosition, animationDuration)
+          .easing(easing)
+          .onUpdate( () => {
+              swayingObjectRef.current.position.copy(currentPosition);
+            });
 
         const twSwayingBackAnimation = new TWEEN.Tween(currentPosition)
-        .to(initialPosition, animationDuration)
-        .easing(easing)
-        .onUpdate( () => {
-            swayingObjectRef.current.position.copy(currentPosition);
-        })
-        .onComplete( () => {
-            setIsSwayingAnimationFinished(true);
-        })
+          .to(initialPosition, animationDuration)
+          .easing(easing)
+          .onUpdate( () => {
+              swayingObjectRef.current.position.copy(currentPosition);
+            })
+          .onComplete( () => {
+              setIsSwayingAnimationFinished(true);
+            })
 
         twSwayingAnimation.chain(twSwayingBackAnimation);
 
