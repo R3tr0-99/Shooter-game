@@ -4,7 +4,7 @@ import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import { useRef } from "react";
 import { usePersonControls } from "./hook";
 import { useFrame } from "@react-three/fiber";
-import { WeaponModel } from "./WeaponModel";
+import { Weapon } from "./Weapon";
 
 const MOVE_SPEED = 5;
 const direction = new THREE.Vector3();
@@ -65,7 +65,7 @@ export const Player = () => {
             </mesh>
           </RigidBody>
           <group ref={objectInHandRef}>
-            <WeaponModel position={[0.3, -0.1, 0.3]} scale={0.3} />
+            <Weapon position={[0.3, -0.1, 0.3]} scale={0.3} />
           </group>
         </>
     );
