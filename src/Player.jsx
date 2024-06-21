@@ -4,15 +4,18 @@ import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import { useRef } from "react";
 import { usePersonControls } from "./hook";
 import { useFrame } from "@react-three/fiber";
+import { WeaponModel } from "./WeaponModel";
 
 const MOVE_SPEED = 5;
 const direction = new THREE.Vector3();
 const frontVector = new THREE.Vector3();
 const sideVector = new THREE.Vector3();
+const rotation = new THREE.Vector3();
 
 export const Player = () => {
     const playerRef = useRef();
     const { forward, backward, left, right, jump } = usePersonControls();
+    const objectInHandRef = useRef();
 
     const rapier = useRapier();
 
@@ -36,13 +39,17 @@ export const Player = () => {
 
         if (jump && grounded) doJump();
 
-        console.log("Player velocity: ", playerRef.current.linvel());
-        console.log("Jump: ", jump);
-        console.log("Grounded: ", grounded);
+        //console.log("Player velocity: ", playerRef.current.linvel());
+        //console.log("Jump: ", jump);
+        //console.log("Grounded: ", grounded);
 
         //Moving the camera
         const {x, y, z} = playerRef.current.translation();
         state.camera.position.set(x, y, z);
+
+        //Move the object in hand's player
+        objectInHandRef.current.rotation.copy(state.camera.rotation);
+        objectInHandRef.current.position.copy(state.camera.position).add(state.camera.getWorldDirection(rotation));
     });
 
     const doJump = () => {
@@ -57,6 +64,9 @@ export const Player = () => {
                 <CapsuleCollider args={[0.75, 0.5]} />
             </mesh>
           </RigidBody>
+          <group ref={objectInHandRef}>
+            <WeaponModel position={[0.3, -0.1, 0.3]} scale={0.3} />
+          </group>
         </>
     );
 }
