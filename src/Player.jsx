@@ -30,11 +30,15 @@ export const Player = () => {
         playerRef.current.setLinvel({ x: direction.x, y: velocity.y, z: direction.z });
 
         //Jump
-        const world = rapier.world;
-        const ray = world.castRay(new RAPIER.Ray(playerRef.current.translation(), { x: 0, y: -1, z: 0})1.5);
-        const grounded = ray && ray.collider && Math.abs(ray.toi) <= 1.5;
+        const world= rapier.world;
+        const ray= world.castRay(new RAPIER.Ray(playerRef.current.translation(), { x: 0, y: -1, z: 0}));
+        const grounded= ray && ray.collider && Math.abs(ray.timeOfImpact) <= 1.5;
 
         if (jump && grounded) doJump();
+
+        console.log("Player velocity: ", playerRef.current.linvel());
+        console.log("Jump: ", jump);
+        console.log("Grounded: ", grounded);
 
         //Moving the camera
         const {x, y, z} = playerRef.current.translation();
