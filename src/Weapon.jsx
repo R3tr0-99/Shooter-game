@@ -3,27 +3,53 @@ import * as TWEEN from "@tweenjs/tween.js";
 import { WeaponModel } from "./WeaponModel";
 import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import { usePointerLockControlsStore } from "./App";
+import { create } from "zustand";
+
+const SHOOT_BUTTON= parseInt(import.meta.env.VITE_SHOOT_BUTTON);
+const AIM_BUTTON= parseInt(import.meta.env.VITE_AIM_BUTTON);
 
 const recoilAmount= 0.03;
 const recoilDuration= 100;
 const easing= TWEEN.Easing.Quadratic.Out;
+
+export const useAimingStore = create( (set) => ({
+    isAiming: false,
+    setIsAiming: (value) => set( () => ({ isAiming: value }))
+}));
 
 export const Weapon = (props) => {
 
     const [recoilAnimation, setRecoilAnimation]= useState(null);
     const [recoilBackAnimation, setRecoilBackAnimation]= useState(null);
     const [isShooting, setIsShooting]= useState(false);
+    const setIsAiming= useAimingStore( (state) => state.setIsAiming);
     const weaponRef= useRef();
 
     useEffect( ()=>{
-        document.addEventListener('mousedown', ()=> {
-            setIsShooting(true);
+        document.addEventListener('mousedown', (ev)=> {
+            ev.preventDefault();
+            mouseButtonHandler(ev.button, true);
         });
 
-        document.addEventListener('mouseup', () => {
-            setIsShooting(false);
+        document.addEventListener('mouseup', (ev) => {
+            ev.preventDefault();
+            mouseButtonHandler(ev.button, false);
         });
     }, []);
+
+    const mouseButtonHandler= (button, state) => {
+        if (!usePointerLockControlsStore.getState().isLock) return;
+
+        switch(button) {
+            case SHOOT_BUTTON:
+                setIsShooting(state);
+                break;
+            case AIM_BUTTON:
+                setIsAiming(state);
+                break
+        }
+    }
 
     const generateRecoilOffset = () => {
         return new THREE.Vector3(Math.random() * recoilAmount, Math.random() * recoilAmount, Math.random() * recoilAmount)

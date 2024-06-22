@@ -5,8 +5,13 @@ import { Physics } from "@react-three/rapier";
 import { Player } from "./Player.jsx";
 import { Cubes } from "./Cube.jsx";
 import { useFrame } from "@react-three/fiber";
+import { create } from "zustand";
 
 const shadowOffset= 50;
+
+export const usePointerLockControlsStore = create ( () => ({
+  isLock: false,
+}));
 
 export const App = () => {
 
@@ -14,10 +19,18 @@ export const App = () => {
     TWEEN.update();
   });
 
+  const PointerLockControlsLockHandler = () => {
+    usePointerLockControlsStore.setState({ isLock: true });
+  }
+
+  const PointerLockControlsUnlockHandler = () => {
+    usePointerLockControlsStore.setState({ isLock: false});
+  }
+
   return (
     <>
      {/*lock mouse, sun, illumination and shadows */}
-     <PointerLockControls />
+     <PointerLockControls onLock={PointerLockControlsLockHandler} onUnlock={PointerLockControlsUnlockHandler} />
      <Sky sunPosition={[100, 20, 100]} />
      <ambientLight intensity={1.5} />
      <directionalLight 
@@ -41,4 +54,4 @@ export const App = () => {
   )
 }
 
-export default App
+export default App;
