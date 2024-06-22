@@ -28,7 +28,7 @@ export const Weapon = (props) => {
     const weaponRef= useRef();
 
     const texture = useLoader(THREE.TextureLoader, FlashShoot);
-
+    
     const [flashAnimation, setFlashAnimation] = useState(null);
 
     useEffect( ()=> {
@@ -90,7 +90,8 @@ export const Weapon = (props) => {
 
     const startShooting = () => {
         if (!recoilAnimation) return;
-        
+        //console.log("Start shooting ok")
+
         recoilAnimation.start();
         flashAnimation.start();
     }
@@ -119,11 +120,13 @@ export const Weapon = (props) => {
           .to({ opacity: 1 }, recoilDuration)
           .easing(easing)
           .onUpdate( () => {
+            //console.log("Current Opacity: ", currentFlashParams.opacity);
             setFlashOpacity( () => currentFlashParams.opacity);
           })
           .onComplete( () => {
             setFlashOpacity( () => 0);
           });
+
         setFlashAnimation(twFlashAnimation);
     }
 
@@ -134,9 +137,9 @@ export const Weapon = (props) => {
     return ( 
         <group {...props}>
             <group ref={weaponRef}>
-                <mesh position={[0, 0.05, -2]} scale={[1, 1, 0]}>
+                <mesh position={[0, 0.5, 7]} scale={[1, 1, 0]}>
                     <planeGeometry attach="geometry" args={[1, 1]} />
-                    <meshBasicMaterial attach="material" map={texture} transparent={true} opacity={flashOpacity} />
+                    <meshBasicMaterial attach="material" map={texture} transparent={true} opacity={flashOpacity} wireframe={true}/>
                 </mesh>
                 <WeaponModel />
             </group>
