@@ -30,7 +30,9 @@ export const Weapon = (props) => {
 
     const audio= new Audio(SingleShootAK15);
 
-    const texture = useLoader(THREE.TextureLoader, FlashShoot);
+    const texture = useLoader(THREE.TextureLoader, FlashShoot, (loader) =>{
+        console.log("Texture Loaded ok", loader);
+    });
 
     const [flashAnimation, setFlashAnimation] = useState(null);
 
@@ -93,7 +95,7 @@ export const Weapon = (props) => {
 
     const startShooting = () => {
         if (!recoilAnimation) return;
-
+        console.log("Start shooting ok");
         audio.play();
 
         recoilAnimation.start();
@@ -116,7 +118,7 @@ export const Weapon = (props) => {
         }
     });
 
-    const [flashOpacity, setFlashOpacity] = useState(0);
+    const [flashOpacity, setFlashOpacity] = useState(1);
 
     const initFlashAnimation = () => {
         const currentFlashParams = { opacity: 0 };
@@ -124,26 +126,27 @@ export const Weapon = (props) => {
         const twFlashAnimation = new TWEEN.Tween(currentFlashParams)
           .to({ opacity: 1 }, recoilDuration)
           .easing(easing)
-          .onUpdate(() => {
-            setFlashOpacity(() => currentFlashParams.opacity);
+          .onUpdate( () => {
+            console.log("Current Opacity: ", currentFlashParams.opacity);
+            setFlashOpacity(currentFlashParams.opacity);
           })
-          .onComplete(() => {
-            setFlashOpacity(() => 0);
+          .onComplete( () => {
+            setFlashOpacity( () => 0);
           });
-
+          
         setFlashAnimation(twFlashAnimation);
     }
 
-    useEffect(() => {
+    useEffect( () => {
         initFlashAnimation();
     }, []);
 
     return ( 
         <group {...props}>
             <group ref={weaponRef}>
-                <mesh position={[0, 0.05, -2]} scale={[1, 1, 0]}>
-                    <planeGeometry attach="geometry" args={[1, 1]} />
-                    <meshBasicMaterial attach="material" map={texture} transparent={true} opacity={flashOpacity} />
+                <mesh position={[0, 0.5, 7]} scale={[2, 2, 0]} rotation-y={-Math.PI}>
+                    <planeGeometry attach="geometry" args={[2, 2]} />
+                    <meshBasicMaterial attach="material" map={texture} transparent opacity={flashOpacity} />
                 </mesh>
                 <WeaponModel />
             </group>
