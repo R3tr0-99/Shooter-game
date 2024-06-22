@@ -10,7 +10,7 @@ const SHOOT_BUTTON= parseInt(import.meta.env.VITE_SHOOT_BUTTON);
 const AIM_BUTTON= parseInt(import.meta.env.VITE_AIM_BUTTON);
 
 const recoilAmount= 0.03;
-const recoilDuration= 100;
+const recoilDuration= 50;
 const easing= TWEEN.Easing.Quadratic.Out;
 
 export const useAimingStore = create((set) => ({
@@ -21,7 +21,7 @@ export const useAimingStore = create((set) => ({
 export const Weapon = (props) => {
 
     const [recoilAnimation, setRecoilAnimation]= useState(null);
-    const [recoilBackAnimation, setRecoilBackAnimation]= useState(null);
+    const [isRecoilAnimationFinished, setIsRecoilAnimationFinished]= useState(true);
     const [isShooting, setIsShooting]= useState(false);
     const setIsAiming= useAimingStore((state) => state.setIsAiming);
     const weaponRef= useRef();
@@ -55,34 +55,31 @@ export const Weapon = (props) => {
         return new THREE.Vector3(Math.random() * recoilAmount, Math.random() * recoilAmount, Math.random() * recoilAmount)
     }
 
-    const generateNewPositionOfRecoil= (currentPosition) => {
+    const generateNewPositionOfRecoil= (currentPosition= new THREE.Vector3(0, 0, 0)) => {
         const recoilOffset= generateRecoilOffset();
         return currentPosition.clone().add(recoilOffset);
     }
 
     const initRecoilAnimation = () => {
         const currentPosition= new THREE.Vector3(0, 0, 0);
-        const initialPosition= new THREE.Vector3(0, 0, 0);
         const newPosition= generateNewPositionOfRecoil(currentPosition);
 
         const twRecoilAnimation= new TWEEN.Tween(currentPosition)
           .to(newPosition, recoilDuration)
           .easing(easing)
+          .repeat(1)
+          .yoyo(true)
           .onUpdate( ()=> {
               weaponRef.current.position.copy(currentPosition);
-            });
-
-        const twRecoilBackAnimation= new TWEEN.Tween(currentPosition)
-          .to(initialPosition, recoilDuration)
-          .easing(easing)
-          .onUpdate( () => {
-              weaponRef.current.position.copy(currentPosition);
-            });
-        
-        twRecoilAnimation.chain(twRecoilBackAnimation);
+            })
+          .onStart(() => {
+            setIsRecoilAnimationFinished(false);
+          })
+          .onComplete(() => {
+            setIsRecoilAnimationFinished(true);
+          })
 
         setRecoilAnimation(twRecoilAnimation);
-        setRecoilBackAnimation(twRecoilBackAnimation);
 
     }
 
@@ -92,14 +89,16 @@ export const Weapon = (props) => {
 
     useEffect( () => {
         initRecoilAnimation();
+    }, []);
 
+    useEffect(() =>{
         if(isShooting) {
             startShooting();
         }
     }, [isShooting]);
 
     useFrame( () => {
-        if (isShooting) {
+        if (isShooting && isRecoilAnimationFinished) {
             startShooting();
         }
     });
