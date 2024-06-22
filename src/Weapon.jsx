@@ -124,17 +124,17 @@ export const Weapon = (props) => {
         const twFlashAnimation = new TWEEN.Tween(currentFlashParams)
           .to({ opacity: 1 }, recoilDuration)
           .easing(easing)
-          .onUpdate( () => {
-            setFlashOpacity( () => currentFlashParams.opacity);
+          .onUpdate(() => {
+            setFlashOpacity(() => currentFlashParams.opacity);
           })
-          .onComplete( () => {
-            setFlashOpacity( () => 0);
+          .onComplete(() => {
+            setFlashOpacity(() => 0);
           });
-          
+
         setFlashAnimation(twFlashAnimation);
     }
 
-    useEffect( () => {
+    useEffect(() => {
         initFlashAnimation();
     }, []);
 
