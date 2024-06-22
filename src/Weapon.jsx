@@ -13,9 +13,9 @@ const recoilAmount= 0.03;
 const recoilDuration= 100;
 const easing= TWEEN.Easing.Quadratic.Out;
 
-export const useAimingStore = create( (set) => ({
+export const useAimingStore = create((set) => ({
     isAiming: false,
-    setIsAiming: (value) => set( () => ({ isAiming: value }))
+    setIsAiming: (value) => set(() => ({ isAiming: value }))
 }));
 
 export const Weapon = (props) => {
@@ -23,10 +23,10 @@ export const Weapon = (props) => {
     const [recoilAnimation, setRecoilAnimation]= useState(null);
     const [recoilBackAnimation, setRecoilBackAnimation]= useState(null);
     const [isShooting, setIsShooting]= useState(false);
-    const setIsAiming= useAimingStore( (state) => state.setIsAiming);
+    const setIsAiming= useAimingStore((state) => state.setIsAiming);
     const weaponRef= useRef();
 
-    useEffect( ()=>{
+    useEffect( ()=> {
         document.addEventListener('mousedown', (ev)=> {
             ev.preventDefault();
             mouseButtonHandler(ev.button, true);

@@ -27,7 +27,7 @@ export const Player = () => {
     const [swayingNewPosition, setSwayingNewPosition]= useState(new THREE.Vector3(-0.005, 0.005, 0));
     const [swayingDuration, setSwayingDuration]= useState(1000);
     const [isMoving, setIsMoving]= useState(false);
-    const isAiming= useAimingStore( (state) => state.isAiming);
+    const isAiming= useAimingStore((state) => state.isAiming);
 
     const rapier = useRapier();
 
@@ -154,11 +154,15 @@ export const Player = () => {
     }
 
     useEffect(() => {
+        initAimingAnimation();
+    }, [swayingObjectRef]);
+
+    useEffect(() => {
         if (isAiming) {
             swayingAnimation.stop();
             aimingAnimation.start();
         }
-        else if (isAiming == false) {
+        else if (isAiming === false) {
             aimingBackAnimation?.start()
               .onComplete(() => {
                 setAnimationParams();
