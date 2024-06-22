@@ -16,7 +16,7 @@ const recoilDuration= 50;
 const easing= TWEEN.Easing.Quadratic.Out;
 
 export const useAimingStore = create((set) => ({
-    isAiming: false,
+    isAiming: null,
     setIsAiming: (value) => set(() => ({ isAiming: value }))
 }));
 
@@ -93,7 +93,7 @@ export const Weapon = (props) => {
 
     const startShooting = () => {
         if (!recoilAnimation) return;
-        
+
         audio.play();
 
         recoilAnimation.start();
@@ -115,6 +115,7 @@ export const Weapon = (props) => {
             startShooting();
         }
     });
+
     const [flashOpacity, setFlashOpacity] = useState(0);
 
     const initFlashAnimation = () => {
@@ -129,6 +130,7 @@ export const Weapon = (props) => {
           .onComplete( () => {
             setFlashOpacity( () => 0);
           });
+          
         setFlashAnimation(twFlashAnimation);
     }
 
