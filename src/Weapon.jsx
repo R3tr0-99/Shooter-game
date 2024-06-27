@@ -90,12 +90,83 @@ export const Weapon = (props) => {
           })
 
         setRecoilAnimation(twRecoilAnimation);
+        
 
+    /*const initRecoilAnimation = () => {
+    const currentPosition = new THREE.Vector3(0, 0, 0);
+    const newPosition = generateNewPositionOfRecoil(currentPosition);
+    const recoilDuration = 50; 
+    const easing = t => t * (2 - t);
+
+    const weapon = weaponRef.current;
+
+    const animateRecoil = (startTime) => {
+        const currentTime = performance.now();
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / recoilDuration, 1);
+
+        currentPosition.x = currentPosition.x + (newPosition.x - currentPosition.x) * easing(progress);
+        currentPosition.y = currentPosition.y + (newPosition.y - currentPosition.y) * easing(progress);
+        currentPosition.z = currentPosition.z + (newPosition.z - currentPosition.z) * easing(progress);
+
+        weapon.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
+
+        if (progress < 1) {
+            requestAnimationFrame(() => animateRecoil(startTime));
+        } else {
+            requestAnimationFrame(() => animateBack(currentTime));
+        }
+    };
+
+    const animateBack = (startTime) => {
+        const currentTime = performance.now();
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / recoilDuration, 1);
+
+        currentPosition.x = newPosition.x - (newPosition.x - 0) * easing(progress);
+        currentPosition.y = newPosition.y - (newPosition.y - 0) * easing(progress);
+        currentPosition.z = newPosition.z - (newPosition.z - 0) * easing(progress);
+
+        weapon.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
+
+        if (progress < 1) {
+            requestAnimationFrame(() => animateBack(startTime));
+        } else {
+            setIsRecoilAnimationFinished(true);
+        }
+    };
+
+    const startAnimation = () => {
+        setIsRecoilAnimationFinished(false);
+        requestAnimationFrame(() => animateRecoil(performance.now()));
+    };
+
+    setRecoilAnimation(startAnimation);
+
+    startAnimation();
+};
+
+const generateNewPositionOfRecoil = (currentPosition) => {
+    return new THREE.Vector3(currentPosition.x - 0.1, currentPosition.y + 0.05, currentPosition.z);
+};
+
+const weaponRef = { current: new THREE.Object3D() };
+
+const setIsRecoilAnimationFinished = (isFinished) => {
+    console.log("Recoil Animation Finished:", isFinished);
+};
+
+const setRecoilAnimation = (animation) => {
+    console.log("Recoil Animation Set");
+};
+
+initRecoilAnimation();
+*/
     }
 
     const startShooting = () => {
         if (!recoilAnimation) return;
-        console.log("Start shooting ok");
+        //console.log("Start shooting ok");
         audio.play();
 
         recoilAnimation.start();
@@ -127,7 +198,7 @@ export const Weapon = (props) => {
           .to({ opacity: 1 }, recoilDuration)
           .easing(easing)
           .onUpdate( () => {
-            console.log("Current Opacity: ", currentFlashParams.opacity);
+            //console.log("Current Opacity: ", currentFlashParams.opacity);
             setFlashOpacity(currentFlashParams.opacity);
           })
           .onComplete( () => {
@@ -135,6 +206,51 @@ export const Weapon = (props) => {
           });
           
         setFlashAnimation(twFlashAnimation);
+    /* const initFlashAnimation = () => {
+    const currentFlashParams = { opacity: 0 };
+    const finalFlashParams = { opacity: 1 };
+    const recoilDuration = 50
+    const easing = t => t * (2 - t);
+
+    const startTime = performance.now();
+    
+    const setFlashOpacity = (opacity) => {
+        const flashElement = document.getElementById('flash-element');
+        if (flashElement) {
+            flashElement.style.opacity = opacity.toString();
+        } else {
+            console.error('Element "flash-element" not found');
+        }
+    };
+
+    const animateFlash = (timestamp) => {
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / recoilDuration, 1);
+        const easedProgress = easing(progress);
+
+        currentFlashParams.opacity = (finalFlashParams.opacity - 0) * easedProgress + 0;
+
+        setFlashOpacity(currentFlashParams.opacity);
+
+        if (progress < 1) {
+            requestAnimationFrame(animateFlash);
+        } else {
+            setFlashOpacity(0);
+        }
+    };
+
+    requestAnimationFrame(animateFlash);
+    
+    //More controls
+    const setFlashAnimation = (animation) => {
+        console.log("Flash Animation Set");
+    };
+
+    setFlashAnimation(animateFlash);
+};
+
+initFlashAnimation();
+ */
     }
 
     useEffect( () => {

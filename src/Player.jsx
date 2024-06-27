@@ -119,6 +119,70 @@ export const Player = () => {
 
         setSwayingAnimation(twSwayingAnimation);
         setSwayingBackAnimation(twSwayingBackAnimation);
+
+    /* const initSwayingObjectAnimation = () => {
+    const currentPosition = { x: 0, y: 0, z: 0 };
+    const initialPosition = { x: 0, y: 0, z: 0 };
+    const newPosition = swayingNewPosition;
+    const animationDuration = swayingDuration;
+    const easing = (t) => t * (2 - t);
+
+    const swayingObject = swayingObjectRef.current;
+    let startTime = null;
+
+    const animate = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / animationDuration, 1);
+
+        currentPosition.x = initialPosition.x + (newPosition.x - initialPosition.x) * easing(progress);
+        currentPosition.y = initialPosition.y + (newPosition.y - initialPosition.y) * easing(progress);
+        currentPosition.z = initialPosition.z + (newPosition.z - initialPosition.z) * easing(progress);
+
+        swayingObject.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            startBackAnimation();
+        }
+    };
+
+    const startBackAnimation = () => {
+        startTime = null;
+        const animateBack = (timestamp) => {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / animationDuration, 1);
+
+            currentPosition.x = newPosition.x - (newPosition.x - initialPosition.x) * easing(progress);
+            currentPosition.y = newPosition.y - (newPosition.y - initialPosition.y) * easing(progress);
+            currentPosition.z = newPosition.z - (newPosition.z - initialPosition.z) * easing(progress);
+
+            swayingObject.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
+
+            if (progress < 1) {
+                requestAnimationFrame(animateBack);
+            } else {
+                setIsSwayingAnimationFinished(true);
+            }
+        };
+        requestAnimationFrame(animateBack);
+    };
+
+    requestAnimationFrame(animate);
+};
+
+const swayingObjectRef = { current: new THREE.Object3D() };
+const swayingNewPosition = new THREE.Vector3(1, 0, 0);
+const swayingDuration = 2000;
+
+const setIsSwayingAnimationFinished = (isFinished) => {
+    //console.log("Animation finished:", isFinished);
+};
+
+initSwayingObjectAnimation();
+*/
     }
 
     useEffect( () => {
@@ -149,7 +213,51 @@ export const Player = () => {
        
         setAimingAnimation(twAimingAnimation);
         setAimingBackAnimation(twAimingBackAnimation);
+        
+    /* const initAimingAnimation = () => {
+    const swayingObject = swayingObjectRef.current;
+    const finalPosition = new THREE.Vector3(-0.3, -0.01, 0);
+    const initialPosition = new THREE.Vector3(0, 0, 0);
+    const animationDuration = swayingDuration;
+    const easing = (t) => t * (2 - t);
 
+    const animateToFinal = (startTime) => {
+        const currentTime = performance.now();
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / animationDuration, 1);
+
+        swayingObject.position.x = initialPosition.x + (finalPosition.x - initialPosition.x) * easing(progress);
+        swayingObject.position.y = initialPosition.y + (finalPosition.y - initialPosition.y) * easing(progress);
+        swayingObject.position.z = initialPosition.z + (finalPosition.z - initialPosition.z) * easing(progress);
+
+        if (progress < 1) {
+            requestAnimationFrame(() => animateToFinal(startTime));
+        } else {
+            requestAnimationFrame(() => animateBack(currentTime));
+        }
+    };
+
+    const animateBack = (startTime) => {
+        const currentTime = performance.now();
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / animationDuration, 1);
+
+        swayingObject.position.x = finalPosition.x - (finalPosition.x - initialPosition.x) * easing(progress);
+        swayingObject.position.y = finalPosition.y - (finalPosition.y - initialPosition.y) * easing(progress);
+        swayingObject.position.z = finalPosition.z - (finalPosition.z - initialPosition.z) * easing(progress);
+
+        if (progress < 1) {
+            requestAnimationFrame(() => animateBack(startTime));
+        }
+    };
+
+    requestAnimationFrame(() => animateToFinal(performance.now()));
+};
+
+const swayingObjectRef = { current: new THREE.Object3D() };
+
+initAimingAnimation();
+*/
     }
 
     useEffect(() => {
